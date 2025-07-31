@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recherche Bénévole - Croissant Rouge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fff0f0, #ffe5e5);
+      font-family: 'Cairo', Arial, sans-serif;
+      color: #c60000;
+      margin: 0; padding: 0;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #c60000;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      box-shadow: 0 4px 8px rgba(198, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 8px #fff0f0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px #900000aa;
+      margin: 0;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 25px 15px 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+      border: 2px solid #c60000;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s;
+      background-color: #fffafafa;
+    }
+
+    input[type="text"]:focus {
+      border-color: #900000;
+      box-shadow: 0 0 8px #c60000aa;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      background-color: #c60000;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 6px #c6000055;
+    }
+
+    button:hover {
+      background-color: #900000;
+      transform: scale(1.05);
+      box-shadow: 0 6px 10px #900000aa;
+    }
+
+    .nav-links {
+      margin-top: 25px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      color: #c60000;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      color: #900000;
+      text-decoration: underline;
+    }
+
+    .result {
+      margin-top: 35px;
+      background: white;
+      padding: 25px 20px 35px;
+      border-radius: 12px;
+      border: 2px solid #c60000;
+      color: #500000;
+      font-size: 17px;
+      text-align: left;
+      box-shadow: 0 8px 15px #c6000025;
+      position: relative;
+    }
+
+    .result img.photo {
+      width: 100px;
+      border-radius: 50%;
+      float: right;
+      margin-left: 15px;
+      border: 3px solid #c60000;
+      box-shadow: 0 0 12px #c60000;
+    }
+
+    .result img.khatem {
+      width: 70px;
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+    }
+
+    .actif {
+      color: green;
+      font-weight: bold;
+    }
+
+    .non-actif {
+      color: red;
+      font-weight: bold;
+    }
+
+    .message-card {
+      display: none;
+      margin-top: 25px;
+      background: #fff4f4;
+      padding: 20px;
+      border: 2px dashed #c60000;
+      border-radius: 10px;
+      color: #900000;
+      font-weight: 600;
+      box-shadow: 0 0 10px #c6000044;
+    }
+
+    footer {
+      background: #c60000;
+      color: white;
+      padding: 15px 20px;
+      font-size: 14px;
+      box-shadow: 0 -4px 8px rgba(198, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    footer a {
+      color: #fff0f0;
+      margin: 0 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      color: #ffdada;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 18px;
+      }
+
+      .result {
+        font-size: 16px;
+      }
+
+      .nav-links {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="crt.png" alt="Logo Croissant Rouge" class="logo" />
+    <h1>Recherche de Bénévole / Responsable</h1>
+  </header>
+
+  <main>
+    <input type="text" id="searchInput" placeholder="Entrez le nom, téléphone ou CIN" autocomplete="off" />
+    <br />
+    <button onclick="searchVolunteer()">Rechercher</button>
+
+    <div class="nav-links">
+      <a href="comite.html">👥 Membres du comité</a> |
+      <a href="admin.html">➕ Gestion des bénévoles</a>
+    </div>
+
+    <div id="result" class="result"></div>
+  </main>
+
+  <footer>
+    📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com |
+    <a href="https://www.facebook.com/crt.mj" target="_blank">Facebook</a> |
+    <a href="https://www.instagram.com/croissant_rouge_tunisien__mj/" target="_blank">Instagram</a>
+  </footer>
+
+  <script>
+    let volunteers = JSON.parse(localStorage.getItem("volunteersData")) || [];
+
+    const responsables = [
+      {
+        name: "Hanen Maoui",
+        image: "president.jpg",
+        phone: "+216 50 609 506",
+        cin: "00000001",
+        role: "Président",
+        note: "Président du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Mariem Bonguicha",
+        image: "tresorier.jpg",
+        phone: "+216 24 190 210",
+        cin: "00000002",
+        role: "Trésorier",
+        note: "Trésorier du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Rayen Ouerghemmi",
+        image: "secretaire.jpg",
+        phone: "+216 52 548 269",
+        cin: "00000003",
+        role: "Secrétaire Général",
+        note: "Secrétaire Général du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Tasneem Khiari",
+        image: "social.jpg",
+        phone: "+216 20 433 495",
+        cin: "00000004",
+        role: "Responsable Social",
+        note: "Responsable Social du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Ala Taieb",
+        image: "secours.jpg",
+        phone: "+216 97 992 553",
+        cin: "00000005",
+        role: "Responsable Secourisme",
+        note: "Responsable Secourisme du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Fatma Mhiri",
+        image: "resp2.jpg",
+        phone: "+21622222222",
+        cin: "87654321",
+        role: "Vice-Président",
+        note: "Vice-Président en charge des opérations.",
+        active: "1",
+        type: "responsable"
+      }
+    ];
+
+    function getAllPersons() {
+      return [...volunteers, ...responsables];
+    }
+
+    function suggestName(input) {
+      const all = getAllPersons();
+      const inputLower = input.toLowerCase();
+      let suggestion = all.find(p => p.name.toLowerCase().startsWith(inputLower[0]));
+      return suggestion ? suggestion.name : null;
+    }
+
+    function searchVolunteer() {
+  const inputRaw = document.getElementById("searchInput").value.trim();
+  const input = inputRaw.toLowerCase();
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "";
+
+  if (!input) {
+    resultDiv.innerHTML = "<p>Veuillez saisir un nom, un téléphone ou un CIN.</p>";
+    return;
+  }
+
+  const normalizedInputDigits = inputRaw.replace(/\D/g, ''); // فقط الأرقام من الهاتف أو CIN
+
+  const all = getAllPersons();
+  let found = all.find(p => p.name.toLowerCase() === input);
+
+  if (!found && normalizedInputDigits.length === 8) {
+    found = all.find(p => p.phone.replace(/\D/g, '') === normalizedInputDigits);
+  }
+
+  if (!found && normalizedInputDigits.length === 8) {
+    found = all.find(p => p.cin.replace(/\D/g, '') === normalizedInputDigits);
+  }
+
+  if (found) {
+    const cinMasked = found.cin.length > 3 ? '*'.repeat(found.cin.length - 3) + found.cin.slice(-3) : found.cin;
+
+    resultDiv.innerHTML = `
+      <img src="${found.image}" alt="${found.name}" class="photo" />
+      <strong> <u> Nom et Prénoms :</u>  ${found.name}</strong><br /> <br>
+      CIN :  ${cinMasked}<br />
+      Téléphone :  ${found.phone}<br />
+      Fonction :  ${found.role}<br />
+      <p style="text-align: right;"><em>${found.note || ''}</em></p>
+      <p>Statut : <span class="${found.active === '1' ? 'actif' : 'non-actif'}">
+        ${found.active === '1' ? 'Actif ✅' : 'Non actif ❌'}
+      </span></p>
+      <img src="khatem.png" alt="Cachet" class="khatem" />
+      <p style="text-align: center;"><strong>Cet Bénévole fait partie du comité local du Croissant Rouge Tunisien</strong> 
+      <br> <strong> هذا المتطوع ، ينتمي الى الهيئة المحلية للهلال الأحمر التونسي بمنزل جميل
+         </strong>
+        </p>
+      ${found.type === "responsable" ? `<p style="text-align: center;"><strong>Ce membre est un <u> ${found.role} </u> officiel du comité</strong></p>` : ''}
+      <div style="text-align:center; margin-top:30px;">
+        <button onclick="afficherMessageImpression()" style="
+          background-color: #c60000;
+          color: white;
+          border: none;
+          padding: 12px 25px;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        ">🖨️ Imprimer la carte du bénévole</button>
+      </div>
+      <div id="messageImpression" class="message-card">
+        <h3 style="color: #c60000;">‼ هام</h3>
+        <p style="color: #333;">لا يمكن طباعة البطاقة في الوقت الحالي، لأن هذه الخانة مازالت <strong>قيد التطوير</strong></p>
+        <p style="color: #333;"> : لأخذ بطاقة متطوع، الرجاء الاتصال بكاتب عام الهيئة </p>
+        <p style="font-weight: bold;">Rayen Ouerghemmi - 📞 +216 52 548 269</p>
+      </div>
+    `;
+  } else {
+    const suggestion = suggestName(input);
+    if (suggestion) {
+      resultDiv.innerHTML = `
+        <p>❌ Aucun bénévole ou responsable trouvé avec cette entrée</p>
+        <p>Voulez-vous dire : <strong>${suggestion}</strong> ?</p>
+        <p>Veuillez vérifier l'orthographe ou contacter le secrétaire général : </p>
+        <p><strong>Rayen Ouerghemmi - 📞 +216 52 548 269</strong></p>
+      `;
+    } else {
+      resultDiv.innerHTML = `
+        <p>❌ Aucun bénévole ou responsable trouvé dans la liste</p>
+        <p>Veuillez vérifier l'entrée ou contacter le secrétaire général : </p>
+        <p><strong>Rayen Ouerghemmi - 📞 +216 52 548 269</strong></p>
+      `;
+    }
+  }
+}
+
+    function afficherMessageImpression() {
+      const msg = document.getElementById("messageImpression");
+      if (msg) {
+        msg.style.display = "block";
+        msg.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  </script>
+
+</body>
+</html>

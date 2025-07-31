@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Liste complète des bénévoles et responsables</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* عام */
+    body {
+      background: linear-gradient(135deg, #fff0f0, #ffe5e5);
+      font-family: Arial, sans-serif;
+      color: #c60000;
+      margin: 0;
+      padding: 0 15px 40px 15px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* رأس الصفحة */
+    header {
+      text-align: center;
+      padding: 20px 0 10px 0;
+    }
+    header img.logo {
+      width: 90px;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease forwards;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+      color: #c60000;
+      text-shadow: 1px 1px 3px rgba(198,0,0,0.4);
+      animation: fadeIn 1.5s ease forwards;
+    }
+    header h3 {
+      margin: 5px 0 0 0;
+      font-weight: normal;
+      color: #900000cc;
+    }
+
+    /* العنوان الرئيسي */
+    h2 {
+      text-align: center;
+      margin: 30px 0 25px 0;
+      font-size: 22px;
+      text-shadow: 1px 1px 3px #ffa1a1;
+    }
+
+    /* الجدول */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 0 12px rgba(198, 0, 0, 0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #c60000;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 16px;
+    }
+    th {
+      background-color: #f8d7da;
+      font-weight: bold;
+      color: #900000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr:hover {
+      background-color: #ffe5e5cc;
+      transition: background-color 0.3s ease;
+    }
+
+    /* حالة النشاط */
+    .actif {
+      color: green;
+      font-weight: bold;
+    }
+    .non-actif {
+      color: red;
+      font-weight: bold;
+    }
+
+    /* الأزرار */
+    .btn-back, .btn-download, .btn-print {
+      display: inline-block;
+      background-color: #c60000;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin: 5px 12px 30px 12px;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+      box-shadow: 0 3px 6px rgba(198,0,0,0.4);
+    }
+    .btn-back:hover, .btn-download:hover, .btn-print:hover {
+      background-color: #900000;
+      transform: scale(1.07);
+      box-shadow: 0 5px 12px rgba(198,0,0,0.7);
+    }
+
+    /* تذييل الصفحة */
+    footer {
+      border-top: 1px solid #c60000;
+      padding: 15px 0 10px 0;
+      text-align: center;
+      font-size: 14px;
+      color: #900000cc;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+    footer a {
+      color: #c60000;
+      margin: 0 10px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: #900000;
+    }
+
+    /* أنيميشن الظهور */
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* استجابة للهواتف */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px 10px 30px 10px;
+      }
+      th, td {
+        font-size: 14px;
+        padding: 10px 8px;
+      }
+      .btn-back, .btn-download, .btn-print {
+        font-size: 14px;
+        padding: 10px 20px;
+        margin: 5px 8px 25px 8px;
+      }
+      header h1 {
+        font-size: 20px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 25px 0 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="crt.png" alt="Logo Croissant Rouge" class="logo" />
+    <h1>Croissant Rouge Tunisien<br>Comité Local Menzel Jemil</h1>
+  </header>
+
+  <h2>Liste complète des bénévoles et responsables</h2>
+
+  <div style="text-align:center;">
+    <button onclick="window.location.href='admin.html'" class="btn-back">⬅️ Retour à l'administration</button>
+    <button onclick="downloadList()" class="btn-download">⬇️ Télécharger la liste</button>
+    <button onclick="window.print()" class="btn-print">🖨️ Imprimer la liste</button>
+  </div>
+
+  <table id="volunteerTable" aria-label="Liste des bénévoles et responsables">
+    <thead>
+      <tr>
+        <th>Nom complet</th>
+        <th>CIN</th>
+        <th>Téléphone</th>
+        <th>Rôle</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Les données seront insérées ici par JavaScript -->
+    </tbody>
+  </table>
+
+  <footer>
+    📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com |
+    <a href="https://www.facebook.com/crt.mj" target="_blank" rel="noopener">Facebook</a> |
+    <a href="https://www.instagram.com/croissant_rouge_tunisien__mj/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+
+  <script>
+    const responsables = [
+      {
+        name: "Hanen Maoui",
+        phone: "+216 50 609 506",
+        cin: "00000001",
+        role: "Président",
+        note: "Président du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Mariem Bonguicha",
+        phone: "+216 24 190 210",
+        cin: "00000002",
+        role: "Trésorier",
+        note: "Trésorier du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Rayen Ouerghemmi",
+        phone: "+216 52 548 269",
+        cin: "00000003",
+        role: "Secrétaire Général",
+        note: "Secrétaire Général du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Tasneem Khiari",
+        phone: "+216 20 433 495",
+        cin: "00000004",
+        role: "Responsable Social",
+        note: "Responsable Social du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Ala Taieb",
+        phone: "+216 97 992 553",
+        cin: "00000005",
+        role: "Responsable Secourisme",
+        note: "Responsable Secourisme du comité local.",
+        active: "1",
+        type: "responsable"
+      },
+      {
+        name: "Fatma Mhiri",
+        phone: "+21622222222",
+        cin: "87654321",
+        role: "Vice-Président",
+        note: "Vice-Président en charge des opérations.",
+        active: "1",
+        type: "responsable"
+      }
+    ];
+
+    function loadAll() {
+      const volunteers = JSON.parse(localStorage.getItem("volunteersData")) || [];
+      const all = [...volunteers, ...responsables];
+
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      all.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.name}</td>
+          <td>${p.cin}</td>
+          <td>${p.phone}</td>
+          <td>${p.role}</td>
+          <td class="${p.active === "1" ? "actif" : "non-actif"}">
+            ${p.active === "1" ? "Actif ✅" : "Non actif ❌"}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function downloadList() {
+      const volunteers = JSON.parse(localStorage.getItem("volunteersData")) || [];
+      const all = [...volunteers, ...responsables];
+
+      let text = "Nom Complet | CIN | Téléphone | Rôle | Statut\n";
+      text += "--------------------------------------------------\n";
+
+      all.forEach(p => {
+        text += `${p.name} | ${p.cin} | ${p.phone} | ${p.role} | ${p.active === "1" ? "Actif" : "Non actif"}\n`;
+      });
+
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "benevole.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    loadAll();
+  </script>
+
+</body>
+</html>

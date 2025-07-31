@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Gestion des bénévoles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    body {
+      background: linear-gradient(135deg, #fff0f0, #ffe5e5);
+      font-family: 'Cairo', Arial, sans-serif;
+      color: #c60000;
+      margin: 0; padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    header {
+      background: #c60000;
+      color: white;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      box-shadow: 0 4px 8px rgba(198, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      user-select: none;
+    }
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 8px #fff0f0;
+      animation: fadeIn 1s ease forwards;
+    }
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-shadow: 1px 1px 3px #900000aa;
+      margin: 0;
+    }
+    main {
+      padding: 20px 15px 40px;
+      max-width: 700px;
+      width: 100%;
+      flex-grow: 1;
+    }
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px #f0b0b0;
+    }
+    /* نموذج الإدخال أفقي منسق */
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #c60000;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      flex: 1 1 150px;
+      max-width: 220px;
+      min-width: 150px;
+    }
+    input:focus, select:focus {
+      border-color: #900000;
+      box-shadow: 0 0 8px #c60000aa;
+    }
+    button {
+      margin-top: 10px;
+      padding: 12px 30px;
+      background-color: #c60000;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 8px #c6000055;
+    }
+    button:hover {
+      background-color: #900000;
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px #900000aa;
+    }
+    .volunteer {
+      border: 1.8px solid #c60000;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin: 15px auto;
+      max-width: 600px;
+      background: white;
+      text-align: left;
+      position: relative;
+      box-shadow: 0 0 10px rgba(198, 0, 0, 0.3);
+      font-size: 16px;
+    }
+    .volunteer strong {
+      color: #a00000;
+      font-size: 18px;
+    }
+    .active-status.actif {
+      color: green;
+      font-weight: bold;
+    }
+    .active-status.non-actif {
+      color: red;
+      font-weight: bold;
+    }
+    .btn-delete, .btn-edit {
+      background: #900000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+    .btn-delete:hover, .btn-edit:hover {
+      background-color: #c60000;
+    }
+    .btn-back, .btn-download, .btn-view {
+      margin: 15px 10px;
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      background-color: #c60000;
+      color: white;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 10px #c6000055;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn-back:hover, .btn-download:hover, .btn-view:hover {
+      background-color: #900000;
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px #900000aa;
+    }
+    #loginScreen {
+      margin-top: 100px;
+      max-width: 400px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #adminPanel.hidden {
+      display: none;
+    }
+    footer {
+      background: #c60000;
+      color: white;
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 14px;
+      box-shadow: 0 -4px 8px rgba(198, 0, 0, 0.6);
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    footer a {
+      color: #fff0f0;
+      margin: 0 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    footer a:hover {
+      color: #ffdada;
+      text-decoration: underline;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* --- نافذة التعديل المنبثقة --- */
+    .modal {
+      display: none; /* مخفي افتراضياً */
+      position: fixed;
+      z-index: 1500;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px 30px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(198,0,0,0.7);
+      position: relative;
+      color: #c60000;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .modal-form .form-row {
+      margin-bottom: 12px;
+    }
+    .modal-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #900000;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .modal-close:hover {
+      color: #c60000;
+    }
+
+    /* عرض صورة صغيرة في الإدراج */
+    .image-preview {
+      max-width: 100px;
+      max-height: 100px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1.5px solid #c60000;
+      object-fit: cover;
+      box-shadow: 0 0 8px rgba(198,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="crt.png" alt="Logo Croissant Rouge" class="logo" />
+    <h1>Administration des bénévoles</h1>
+  </header>
+
+  <main>
+    <div id="loginScreen">
+      <h2>🔐 Authentification Admin</h2>
+      <input type="password" id="password" placeholder="Entrez le mot de passe" />
+      <br />
+      <button onclick="checkPassword()"> <strong> Se connecter </strong> </button>
+      <a href="splash.html?next=recherche.html" class="btn-back" aria-label="Retour à la page principale">⬅️ Retour à la page principale</a>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+      <h2>➕ Ajouter un bénévole</h2>
+      <div class="form-row">
+        <input type="text" id="name" placeholder="Nom complet" />
+        <input type="text" id="cin" placeholder="CIN (8 chiffres)" maxlength="8" />
+        <input type="text" id="phone" placeholder="Numéro de téléphone" maxlength="8" />
+      </div>
+      <div class="form-row" style="align-items:center;">
+        <select id="role" title="Rôle">
+          <option value="bénévole">bénévole</option>
+          <option value="responsable">responsable</option>
+        </select>
+        <input type="text" id="image" placeholder="Nom image (ex: indis.jpg)" title="Nom image ou vide si téléchargement" />
+        <input type="file" id="imageFile" accept="image/*" title="Ou choisissez un fichier image" />
+        <input type="text" id="note" placeholder="Note (optionnelle)" />
+        <select id="active" title="Statut">
+          <option value="1">Actif</option>
+          <option value="0">Non actif</option>
+        </select>
+      </div>
+      <button onclick="addVolunteer()">Ajouter</button>
+
+      <h2>Liste des bénévoles</h2>
+      <div id="volunteerList"></div>
+
+      <div style="margin-top:30px;">
+        <a href="liste_benevoles.html" class="btn-view">👁️ Voir tous les bénévoles</a>
+        <button class="btn-download" onclick="exportList()">📥 Télécharger la liste</button>
+        <a href="splash.html?next=recherche.html" class="btn-back">⬅️ Retour</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal pour modification -->
+  <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="modal-close" title="Fermer" onclick="closeModal()">&times;</button>
+      <h3 id="modalTitle">Modifier bénévole</h3>
+      <form id="editForm" class="modal-form" onsubmit="saveEdit(event)">
+        <div class="form-row">
+          <input type="text" id="editName" placeholder="Nom complet" required />
+          <input type="text" id="editCin" placeholder="CIN (8 chiffres)" maxlength="8" required />
+          <input type="text" id="editPhone" placeholder="Numéro de téléphone" maxlength="8" required />
+        </div>
+        <div class="form-row" style="align-items:center;">
+          <select id="editRole" required title="Rôle">
+            <option value="bénévole">bénévole</option>
+            <option value="responsable">responsable</option>
+          </select>
+          <input type="text" id="editImage" placeholder="Nom image (ex: indis.png)" />
+          <input type="file" id="editImageFile" accept="image/*" />
+          <input type="text" id="editNote" placeholder="Note (optionnelle)" />
+          <select id="editActive" required title="Statut">
+            <option value="1">Actif</option>
+            <option value="0">Non actif</option>
+          </select>
+        </div>
+        <button type="submit">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com |
+    <a href="https://www.facebook.com/crt.mj" target="_blank" rel="noopener">Facebook</a> |
+    <a href="https://www.instagram.com/croissant_rouge_tunisien__mj/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+
+<script>
+  const ADMIN_PASSWORD = "rayen99";
+
+  let volunteers = [];
+  let editIndex = null;
+
+  function checkPassword() {
+    const pass = document.getElementById("password").value;
+    if (pass === ADMIN_PASSWORD) {
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("adminPanel").classList.remove("hidden");
+      loadVolunteers();
+    } else {
+      alert("Mot de passe incorrect !!");
+    }
+  }
+
+  function loadVolunteers() {
+    volunteers = JSON.parse(localStorage.getItem("volunteersData")) || [];
+    const listDiv = document.getElementById("volunteerList");
+    listDiv.innerHTML = "";
+
+    if (volunteers.length === 0) {
+      listDiv.innerHTML = "<p>Aucun bénévole ajouté pour l'instant</p>";
+      return;
+    }
+
+    volunteers.forEach((v, index) => {
+      const div = document.createElement("div");
+      div.classList.add("volunteer");
+
+      let imageHtml = "N/A";
+      if (v.image) {
+        if (v.image.startsWith('data:image')) {
+          imageHtml = `<img src="${v.image}" alt="Image de ${v.name}" class="image-preview" />`;
+        } else {
+          imageHtml = v.image;
+        }
+      }
+
+      div.innerHTML = `
+        <strong>${v.name}</strong> (${v.role})<br />
+        CIN : ${v.cin}<br />
+        Téléphone : ${v.phone}<br />
+        Image : ${imageHtml}<br />
+        Note : ${v.note || ""}<br />
+        Statut : <span class="active-status ${v.active === "1" ? "actif" : "non-actif"}">
+          ${v.active === "1" ? "Actif ✅" : "Non actif ❌"}
+        </span><br />
+        <button class="btn-edit" onclick="openEditModal(${index})" aria-label="Modifier ${v.name}">Modifier</button>
+        <button class="btn-delete" onclick="deleteVolunteer(${index})" aria-label="Supprimer ${v.name}">Supprimer</button>
+      `;
+      listDiv.appendChild(div);
+    });
+  }
+
+  function addVolunteer() {
+    const name = document.getElementById("name").value.trim();
+    const cin = document.getElementById("cin").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const role = document.getElementById("role").value;
+    const imageInput = document.getElementById("image").value.trim();
+    const imageFileInput = document.getElementById("imageFile");
+    const file = imageFileInput.files[0];
+    const note = document.getElementById("note").value.trim();
+    const active = document.getElementById("active").value;
+
+    if (!name || !cin || !phone || cin.length !== 8 || !/^\d+$/.test(cin)) {
+      alert("Veuillez remplir les champs correctement.");
+      return;
+    }
+
+    if (volunteers.some(v => v.cin === cin)) {
+      alert("Un bénévole avec ce CIN existe déjà.");
+      return;
+    }
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const image = e.target.result;
+        saveVolunteer({ name, cin, phone, role, image, note, active });
+        alert("Bénévole ajouté !");
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const image = imageInput;
+      saveVolunteer({ name, cin, phone, role, image, note, active });
+      alert("Bénévole ajouté !");
+    }
+  }
+
+  function saveVolunteer(volunteer) {
+    volunteers.push(volunteer);
+    localStorage.setItem("volunteersData", JSON.stringify(volunteers));
+    resetForm();
+    loadVolunteers();
+  }
+
+  function deleteVolunteer(index) {
+    if (!confirm("Voulez-vous vraiment supprimer ce bénévole ?")) return;
+    volunteers.splice(index, 1);
+    localStorage.setItem("volunteersData", JSON.stringify(volunteers));
+    loadVolunteers();
+  }
+
+  function openEditModal(index) {
+    editIndex = index;
+    const v = volunteers[index];
+
+    document.getElementById("editName").value = v.name;
+    document.getElementById("editCin").value = v.cin;
+    document.getElementById("editPhone").value = v.phone;
+    document.getElementById("editRole").value = v.role;
+    document.getElementById("editImage").value = "";
+    document.getElementById("editNote").value = v.note || "";
+    document.getElementById("editActive").value = v.active;
+
+    // صورة معروضة مؤقتاً
+    const modalContent = document.querySelector('.modal-content');
+    let existingImg = modalContent.querySelector('.image-preview');
+    if (existingImg) existingImg.remove();
+
+    if (v.image) {
+      let imgElem = document.createElement('img');
+      imgElem.classList.add('image-preview');
+      imgElem.alt = `Image de ${v.name}`;
+      if (v.image.startsWith('data:image')) {
+        imgElem.src = v.image;
+      } else {
+        imgElem.src = v.image; // رابط مباشر أو اسم الصورة
+      }
+      modalContent.appendChild(imgElem);
+    }
+
+    document.getElementById("editModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+  }
+
+  document.getElementById("editImageFile").addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("editImage").value = e.target.result; // تخزين صورة بصيغة base64
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function saveEdit(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("editName").value.trim();
+    const cin = document.getElementById("editCin").value.trim();
+    const phone = document.getElementById("editPhone").value.trim();
+    const role = document.getElementById("editRole").value;
+    const note = document.getElementById("editNote").value.trim();
+    const active = document.getElementById("editActive").value;
+
+    // تأكد من وجود صورة محفوظة مسبقاً أو في input النصي
+    let image = document.getElementById("editImage").value.trim();
+    if (!image) {
+      // إذا لم توجد صورة جديدة و لم تكن قيمة النص موجودة، احتفظ بالصورة القديمة
+      image = volunteers[editIndex].image || "";
+    }
+
+    if (!name || !cin || !phone || cin.length !== 8 || !/^\d+$/.test(cin)) {
+      alert("Veuillez remplir les champs correctement.");
+      return;
+    }
+
+    // تحقق من عدم تكرار CIN مع غير هذا المتطوع
+    const duplicate = volunteers.some((v, idx) => v.cin === cin && idx !== editIndex);
+    if (duplicate) {
+      alert("Un autre bénévole avec ce CIN existe déjà.");
+      return;
+    }
+
+    volunteers[editIndex] = { name, cin, phone, role, image, note, active };
+    localStorage.setItem("volunteersData", JSON.stringify(volunteers));
+    closeModal();
+    loadVolunteers();
+  }
+
+  function resetForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("cin").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("role").value = "bénévole";
+    document.getElementById("image").value = "";
+    document.getElementById("imageFile").value = "";
+    document.getElementById("note").value = "";
+    document.getElementById("active").value = "1";
+  }
+
+  function exportList() {
+    if (volunteers.length === 0) {
+      alert("La liste des bénévoles est vide.");
+      return;
+    }
+
+    let content = "Liste des bénévoles:\n\n";
+    volunteers.forEach((v, i) => {
+      content += `${i + 1}. ${v.name} - CIN: ${v.cin} - Tel: ${v.phone} - Role: ${v.role} - Statut: ${v.active === "1" ? "Actif" : "Non actif"}\nNote: ${v.note || ""}\n\n`;
+    });
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "benevoles.txt";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  }
+</script>
+
+</body>
+</html>

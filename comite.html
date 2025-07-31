@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comité Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    /* ---------- En-tête ---------- */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background-color: #c60000;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 3px 8px rgba(198, 0, 0, 0.6);
+      user-select: none;
+    }
+
+    header img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+    }
+
+    header h1 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin: 0;
+      user-select: text;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      margin-top: 60px;
+      border-top: 1px solid #c60000;
+      padding: 15px 20px;
+      font-size: 14px;
+      color: #900000;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      background: #fff0f0;
+    }
+
+    footer a {
+      color: #c60000;
+      margin: 0 14px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #900000;
+      text-decoration: underline;
+    }
+
+    /* ---------- Body ---------- */
+    body {
+      background: linear-gradient(135deg, #fff0f0, #ffe5e5);
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #c60000;
+      margin: 0;
+      padding: 90px 20px 40px; /* Padding top for header space */
+      text-align: center;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* هالات خلفية ناعمة */
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      z-index: 0;
+    }
+    body::before {
+      width: 350px; height: 350px;
+      background: #c60000;
+      top: -120px;
+      left: -120px;
+    }
+    body::after {
+      width: 300px; height: 300px;
+      background: #900000;
+      bottom: -100px;
+      right: -100px;
+    }
+
+    h2 {
+      margin-bottom: 40px;
+      font-weight: 600;
+      font-size: 2.4rem;
+      text-shadow: 0 2px 6px rgba(198, 0, 0, 0.4);
+      position: relative;
+      z-index: 1;
+    }
+
+    .comite-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .comite-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .member {
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      width: 230px;
+      box-shadow: 0 0 10px 2px rgba(198, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      text-align: center;
+    }
+
+    .member:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(198, 0, 0, 0.4);
+      z-index: 5;
+      background: #fff7f7;
+    }
+
+    .member img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 3px solid #c60000;
+      box-shadow: 0 0 8px rgba(198, 0, 0, 0.6);
+      object-fit: cover;
+    }
+
+    .member strong {
+      font-weight: 600;
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 6px;
+      color: #8b0000;
+    }
+
+    .role {
+      font-weight: 600;
+      color: #900000;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .role::before {
+      content: "★";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #c60000;
+      font-size: 1.2rem;
+      line-height: 1;
+      opacity: 0.7;
+    }
+
+    .member div:last-child {
+      font-size: 0.9rem;
+      color: #a00000;
+      font-weight: 500;
+      user-select: text;
+    }
+
+    /* زر الرجوع */
+    .btn-back {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 14px 38px;
+      background: linear-gradient(135deg, #c60000, #900000);
+      color: white;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 15px rgba(198, 0, 0, 0.5);
+      transition: background 0.3s ease, transform 0.3s ease;
+      user-select: none;
+      letter-spacing: 0.05em;
+      position: relative;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+    .btn-back:hover {
+      background: linear-gradient(135deg, #900000, #c60000);
+      transform: scale(1.08);
+      box-shadow: 0 10px 20px rgba(198, 0, 0, 0.7);
+    }
+    .btn-back::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255,255,255,0.15);
+      transform: skewX(-25deg);
+      transition: left 0.5s ease;
+      z-index: 1;
+    }
+    .btn-back:hover::after {
+      left: 125%;
+    }
+  </style>
+</head>
+<body>
+
+  <header role="banner" aria-label="En-tête du site">
+    <img src="crt.png" alt="Logo Croissant Rouge Tunisien" />
+    <h1>Comité Local - Croissant Rouge Tunisien</h1>
+  </header>
+
+  <h2>👥 Membres du Comité Local</h2>
+
+  <div class="comite-container">
+
+    <!-- Président -->
+    <div class="comite-row">
+      <div class="member">
+        <img src="president.jpg" alt="Président" />
+        <div><strong>Hanen Maoui</strong></div>
+        <div class="role">Président</div>
+        <div>📞 +216 50 609 506</div>
+      </div>
+    </div>
+
+    <!-- 3 postes principaux -->
+    <div class="comite-row">
+      <div class="member">
+        <img src="tresorier.jpg" alt="Trésorier" />
+        <div><strong>Mariem Bonguicha</strong></div>
+        <div class="role">Trésorier</div>
+        <div>📞 +216 24 190 210</div>
+      </div>
+      <div class="member">
+        <img src="indis.png" alt="Vice-président" />
+        <div><strong>INDISPONIBLE</strong></div>
+        <div class="role">Vice-président</div>
+        <div>📞 +216 00 000 000</div>
+      </div>
+      <div class="member">
+        <img src="secretaire.jpg" alt="Secrétaire général" />
+        <div><strong>Rayen Ouerghemmi</strong></div>
+        <div class="role">Secrétaire Général</div>
+        <div>📞 +216 52 548 269</div>
+      </div>
+    </div>
+
+    <!-- Membres spécialisés -->
+    <div class="comite-row">
+      <div class="member">
+        <img src="social.jpg" alt="Social" />
+        <div><strong>Tasneem Khiari</strong></div>
+        <div class="role">Responsable Social</div>
+        <div>📞 +216 20 433 495</div>
+      </div>
+      <div class="member">
+        <img src="secours.jpg" alt="secours" />
+        <div><strong>Ala Taieb</strong></div>
+        <div class="role">Responsable Secourisme</div>
+        <div>📞 +216 97 992 553</div>
+      </div>
+      <div class="member">
+        <img src="indis.png" alt="diffusion" />
+        <div><strong>INDISPONIBLE</strong></div>
+        <div class="role">Responsable Diffusion</div>
+        <div>📞 +216 00 000 000</div>
+      </div>
+    </div>
+
+    <div class="comite-row">
+      <div class="member">
+        <img src="indis.png" alt="Catastrophes" />
+        <div><strong>INDISPONIBLE</strong></div>
+        <div class="role">Responsable Gestion Des Catastrophes</div>
+        <div>📞 +216 00 000 000</div>
+      </div>
+      <div class="member">
+        <img src="indis.png" alt="Santé" />
+        <div><strong>INDISPONIBLE</strong></div>
+        <div class="role">Responsable Santé</div>
+        <div>📞 +216 00 000 000</div>
+      </div>
+      <div class="member">
+        <img src="indis.png" alt="Jeunesse" />
+        <div><strong>INDISPONIBLE</strong></div>
+        <div class="role">Responsable Jeunesse</div>
+        <div>📞 +216 00 000 000</div>
+      </div>
+    </div>
+
+    <!-- Bouton retour -->
+    <a href="splash.html?next=recherche.html" class="btn-back" aria-label="Retour à la page principale">⬅️ Retour à la page principale</a>
+  </div>
+
+  <footer role="contentinfo">
+    📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com |
+    <a href="https://www.facebook.com/crt.mj" target="_blank" rel="noopener">Facebook</a> |
+    <a href="https://www.instagram.com/croissant_rouge_tunisien__mj/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+
+</body>
+</html>

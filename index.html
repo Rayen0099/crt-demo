@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Accueil - Croissant Rouge Menzel Jemil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #fff0f0, #ffe5e5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 100vh;
+      color: #c60000;
+      text-align: center;
+    }
+
+    header {
+      width: 100%;
+      background: #c60000;
+      color: white;
+      padding: 15px 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    img.logo {
+      width: 100px;
+      margin: 30px 0 20px;
+      animation: fadeIn 1.5s ease forwards;
+      box-shadow: 0 0 12px #c6000055;
+      border-radius: 50%;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 10px 15px;
+      line-height: 1.6;
+    }
+
+    u {
+      text-decoration: underline;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    .btn-enter {
+      margin-top: 25px;
+      margin-bottom: 40px;
+      padding: 14px 30px;
+      background-color: #c60000;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px #c6000055;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-enter:hover {
+      background-color: #900000;
+      transform: scale(1.05);
+    }
+
+    footer {
+      width: 100%;
+      background-color: #c60000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    footer a {
+      color: #fff0f0;
+      text-decoration: none;
+      margin: 0 5px;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9);}
+      to { opacity: 1; transform: scale(1);}
+    }
+
+    @media (min-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .btn-enter {
+        font-size: 20px;
+      }
+
+      img.logo {
+        width: 130px;
+      }
+
+      footer {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Bienvenue sur le site du Croissant Rouge - Menzel Jemil</h1>
+  </header>
+
+  <img src="crt.png" alt="Logo Croissant Rouge" class="logo">
+
+  <h2>
+    Comité local de Menzel Jemil
+    <br><br>
+    مرحبًا بكم في الموقع الرسمي لمتطوعي الهيئة المحلية للهلال الأحمر التونسي بمنزل جميل
+    <br><br>
+    نفخر بأن نكون منصة تجمع قلوب النشطاء و المتطوعين المخلصين الذين يسعون بكل تفانٍ لخدمة مجتمعهم ورفع راية الإنسانية.
+    <br><br>
+    <u><strong>
+      عبر خاصية البحث في الموقع، يمكنكم التأكد من انتماء المتطوعين للهيئة ونشاطهم داخلها.
+    </strong></u>
+    <br><br>
+    نرحب بكل من يحمل روح العطاء والرغبة الصادقة في خدمة الوطن والإنسانية، فأنتم جزء لا يتجزأ من رحلتنا لبناء مجتمع أكثر أمانًا وتضامنًا.
+  </h2>
+
+  <button class="btn-enter" onclick="location.href='splash.html'">Entrer sur le site</button>
+
+  <footer>
+    📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com <br>
+    <a href="https://facebook.com/crt.mj" target="_blank">Facebook</a> |
+    <a href="https://instagram.com/croissant_rouge_tunisien__mj/" target="_blank">Instagram</a>
+  </footer>
+
+</body>
+</html>

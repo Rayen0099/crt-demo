@@ -277,7 +277,7 @@
 
     function downloadList() {
       const volunteers = JSON.parse(localStorage.getItem("volunteersData")) || [];
-      const all = [...volunteers, ...responsables];
+      const all = [...responsables, ...volunteers];
 
       let text = "Nom Complet | CIN | Téléphone | Rôle | Statut\n";
       text += "--------------------------------------------------\n";
@@ -303,3 +303,4 @@
 
 </body>
 </html>
+

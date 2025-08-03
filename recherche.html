@@ -228,6 +228,12 @@
     <div id="result" class="result"></div>
   </main>
 
+  <div style="text-align: center; margin-top: 40px; font-weight: bold; font-size: 16px; color: #900000; font-family: 'Cairo', sans-serif;">
+  📌Nombre total des bénévoles à ce jour <br>
+  <span id="currentDate" style="color: #c60000;"></span> ➣
+  <span id="totalCount" style="background-color: #ffeaea; padding: 6px 12px; border-radius: 8px; border: 1.5px solid #c60000; display: inline-block;">0</span>
+</div>
+  
   <footer>
     📞 +216 52 548 269 | 📧 crt.menzel.jemil@gmail.com |
     <a href="https://www.facebook.com/crt.mj" target="_blank">Facebook</a> |
@@ -399,6 +405,31 @@
         msg.scrollIntoView({ behavior: "smooth" });
       }
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+  const data = JSON.parse(localStorage.getItem("volunteersData")) || [];
+  document.getElementById("totalCount").innerText = data.length;
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = {
+      timeZone: 'Africa/Tunis',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const formatted = new Intl.DateTimeFormat('fr-FR', options).format(now);
+    document.getElementById("currentDate").innerText = formatted;
+  }
+
+  updateDateTime(); // أول مرة
+  setInterval(updateDateTime, 1000); // ⏱️ تحديث كل ثانية
+});
+    
   </script>
 
 </body>
